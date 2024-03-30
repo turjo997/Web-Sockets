@@ -21,6 +21,10 @@ public class WebSocketService {
         simpMessagingTemplate.convertAndSend("/topic/messages" , responseMessage);
     }
 
+    public void notifyUser(final String id , final String message){
+        ResponseMessage responseMessage = new ResponseMessage(message);
+        simpMessagingTemplate.convertAndSendToUser(id , "/topic/private-messages" , responseMessage);
+    }
 
 
 

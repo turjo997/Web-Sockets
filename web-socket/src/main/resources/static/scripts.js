@@ -7,6 +7,9 @@ $(document).ready(function() {
     $("#send").click(function() {
         sendMessage();
     });
+    $("#send-private").click(function() {
+        sendPrivateMessage();
+    });
 
 });
 
@@ -18,6 +21,12 @@ function connect() {
         stompClient.subscribe('/topic/messages', function (message) {
             showMessage(JSON.parse(message.body).content);
         });
+
+        stompClient.subscribe('/user/topic/private-messages', function (message) {
+            showMessage(JSON.parse(message.body).content);
+        });
+
+
     });
 }
 
@@ -31,3 +40,7 @@ function sendMessage() {
 }
 
 
+function sendPrivateMessage() {
+    console.log("sending private message");
+    stompClient.send("/ws/private-message", {}, JSON.stringify({'messageContent': $("#private-message").val()}));
+}
